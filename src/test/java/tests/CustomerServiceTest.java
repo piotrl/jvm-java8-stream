@@ -10,7 +10,7 @@ import services.CustomerService;
 import services.CustomerServiceInterface;
 import entities.Customer;
 
-public class CustomerServiceTests {
+public class CustomerServiceTest {
 
 	@Test
 	public void testFindByName() {
@@ -20,7 +20,6 @@ public class CustomerServiceTests {
 		
 		assertNotNull("Result can't be null", res);
 		assertEquals(1, res.size());
-		
 	}
 
 }

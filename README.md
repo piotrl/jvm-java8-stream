@@ -1,4 +1,4 @@
 streams
 =======
 
-Streams API task for JVM Internals class
+Streams API assignment source for the JVM Internals class at Gdansk University.
