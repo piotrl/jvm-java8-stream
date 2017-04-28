@@ -54,14 +54,15 @@ public class CustomerService implements CustomerServiceInterface {
 
     @Override
     public void addProductToAllCustomers(Product p) {
-        customers.stream()
-                .forEach(c -> c.getBoughtProducts().add(p));
+        customers.forEach(c -> c.getBoughtProducts().add(p));
     }
 
     @Override
     public double avgOrders(boolean includeEmpty) {
-        // TODO Auto-generated method stub
-        return 0;
+        Integer sumOfAllOrders = customers.stream()
+                .map(customer -> customer.getBoughtProducts().size())
+                .reduce(0, Integer::sum);
+        return 1.0 * sumOfAllOrders / customers.size();
     }
 
     @Override
