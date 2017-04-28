@@ -15,7 +15,7 @@ public class DataProducer {
 
 		for (int i = 0; i < count; i++) {
 			Customer c = new Customer(i, "Customer: " + i);
-			for (int j = count - i; j > 3; j--) {
+			for (int j = count - i; j > 1; j--) {
 				c.addProduct(new Product(j, "Product: " + j, (double) j * 0.1));
 			}
 			result.add(c);

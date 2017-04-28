@@ -9,6 +9,34 @@ public class Customer {
 	private String email;
 	private String phoneNo;
 	private String taxId;
+	private List<Product> boughtProducts;
+
+	public Customer() {
+		boughtProducts = new ArrayList<>();
+	}
+
+	public Customer(int id, String name) {
+		this.id = id;
+		this.name = name;
+		this.boughtProducts = new ArrayList<>();
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getEmail() {
 		return email;
@@ -34,40 +62,15 @@ public class Customer {
 		this.taxId = taxId;
 	}
 
-	private List<Product> boughtProducts;
-
-	public Customer() {
-		boughtProducts = new ArrayList<>();
-	}
-
-	public Customer(int id, String name) {
-		this.id = id;
-		this.name = name;
-		this.boughtProducts = new ArrayList<>();
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public List<Product> getBoughtProducts() {
 		return boughtProducts;
+	}
+
+	public void setBoughtProducts(List<Product> boughtProducts) {
+		this.boughtProducts = boughtProducts;
 	}
 
 	public void addProduct(Product p) {
 		boughtProducts.add(p);
 	}
-
 }

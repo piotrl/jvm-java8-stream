@@ -3,6 +3,10 @@ package services;
 import entities.Customer;
 import entities.Product;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -60,6 +64,7 @@ public class CustomerService implements CustomerServiceInterface {
         customers.forEach(c -> c.getBoughtProducts().add(p));
     }
 
+    // FIXME: includeEmpty is not used
     @Override
     public double avgOrders(boolean includeEmpty) {
         Integer sumOfAllOrders = customers.stream()
@@ -120,12 +125,15 @@ public class CustomerService implements CustomerServiceInterface {
 
     private boolean isEqualByField(String fieldName, Object value, Customer c) {
         try {
-            return Customer.class.getDeclaredField(fieldName).get(c).equals(value);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
+            Object fieldValue = buildGetter(fieldName).invoke(c);
+            return fieldValue.equals(value);
+        } catch (IllegalAccessException | IntrospectionException | InvocationTargetException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-
+    private static Method buildGetter(String fieldName) throws IntrospectionException {
+        return new PropertyDescriptor(fieldName, Customer.class).getReadMethod();
+    }
 }
