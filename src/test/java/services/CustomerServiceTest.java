@@ -99,4 +99,55 @@ public class CustomerServiceTest {
         assertEquals(0, buysBeforeAdd);
         assertEquals(5, buysAfterAdd);
     }
+
+    @Test
+    public void countCustomersWhoBought() throws Exception {
+        CustomerServiceInterface cs = new CustomerService(DataProducer.getTestData(5));
+        Product fakeProduct = new Product(1234, "Fake product", 1336);
+        Product productBoughtByFirstCustomer = DataProducer.buildProduct(2);
+
+        int customersOfFakeProducts = cs.countCustomersWhoBought(fakeProduct);
+        int customersOfFirstProduct = cs.countCustomersWhoBought(productBoughtByFirstCustomer);
+
+        assertEquals(0, customersOfFakeProducts);
+        assertEquals(4, customersOfFirstProduct);
+    }
+
+    @Test
+    public void avgOrdersIncludingEmpty() throws Exception {
+        CustomerServiceInterface cs = new CustomerService(DataProducer.getTestData(5));
+
+        double v = cs.avgOrders(true);
+
+        assertEquals(0.6, v, 0.001);
+    }
+
+    @Test
+    public void avgOrdersWithoutEmpty() throws Exception {
+        CustomerServiceInterface cs = new CustomerService(DataProducer.getTestData(5));
+
+        double v = cs.avgOrders(false);
+
+        assertEquals(0.75, v, 0.001);
+    }
+
+    @Test
+    public void oneMostPopularProduct() throws Exception {
+        CustomerServiceInterface cs = new CustomerService(DataProducer.getTestData(5));
+
+        List<Product> products = cs.mostPopularProduct();
+
+        assertEquals(1, products.size());
+        assertEquals(DataProducer.buildProduct(2), products.get(0));
+    }
+
+    @Test
+    public void multipleMostPopularProduct() throws Exception {
+        CustomerServiceInterface cs = new CustomerService(DataProducer.getTestData(5));
+        cs.addProductToAllCustomers(DataProducer.buildProduct(6));
+        cs.addProductToAllCustomers(DataProducer.buildProduct(7));
+        List<Product> products = cs.mostPopularProduct();
+
+        assertEquals(2, products.size());
+    }
 }

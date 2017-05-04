@@ -64,13 +64,20 @@ public class CustomerService implements CustomerServiceInterface {
         customers.forEach(c -> c.getBoughtProducts().add(p));
     }
 
-    // FIXME: includeEmpty is not used
     @Override
     public double avgOrders(boolean includeEmpty) {
-        Integer sumOfAllOrders = customers.stream()
-                .map(customer -> customer.getBoughtProducts().size())
-                .reduce(0, Integer::sum);
-        return 1.0 * sumOfAllOrders / customers.size();
+        Double sumOfAllOrders = customers.stream()
+                .map(Customer::getBoughtProducts)
+                .map(products -> products.stream().map(Product::getPrice).reduce(0.0, Double::sum))
+                .reduce(0.0, Double::sum);
+
+        if (includeEmpty) {
+            return sumOfAllOrders / customers.size();
+        }
+        Integer customersWithoutEmpty = customers.stream()
+                .filter(customer -> customer.getBoughtProducts().size() > 0)
+                .collect(toList()).size();
+        return sumOfAllOrders / customersWithoutEmpty;
     }
 
     @Override
